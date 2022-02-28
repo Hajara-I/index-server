@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Books } = require("../models");
 
-//const { validateToken } = require("../middlewares/AuthMiddleware");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 router.get("/", async (req, res) => {
 	const listOfBooks = await Books.findAll();
@@ -23,19 +23,19 @@ router.get("/byuserId/:id", async (req, res) => {
 	res.json(listOfBooks);
 });
 
-router.post("/", async function (req, res) {
-	const book = req.body;
-	await Books.create(book);
-	res.send(book);
-});
-
-// router.post("/", validateToken, async (req, res) => {
-//   const post = req.body;
-//   post.username = req.user.username;
-//   post.UserId = req.user.id;
-//   await Posts.create(post);
-//   res.json(post);
+// router.post("/", async function (req, res) {
+// 	const book = req.body;
+// 	await Books.create(book);
+// 	res.send(book);
 // });
+
+router.post("/", validateToken, async (req, res) => {
+	const book = req.body;
+	book.username = req.user.username;
+	book.UserId = req.user.id;
+	await Books.create(book);
+	res.json(book);
+});
 
 // router.delete("/:postId", validateToken, async (req, res) => {
 //   const postId = req.params.postId;

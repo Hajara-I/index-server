@@ -12,7 +12,7 @@ const db = require("./models");
 
 // Routers
 const usersRouter = require("./routes/users");
-app.use("/users", usersRouter);
+app.use("/auth", usersRouter);
 
 const booksRouter = require("./routes/books");
 app.use("/books", booksRouter);
